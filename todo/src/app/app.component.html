@@ -1,0 +1,7 @@
+<mat-toolbar  class="toolbar" *ngIf="authService.isLoggedIn()" color="primary">
+    <span>My Tasks</span>
+    <span class="spacer"></span>
+    <button mat-mini-fab (click)="logout()"><mat-icon>logout</mat-icon></button>
+  </mat-toolbar>
+  
+  <router-outlet></router-outlet>

@@ -1,0 +1,16 @@
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px; 
+    background-color: #040043;
+    color: white;
+  }
+  
+  .spacer {
+    flex: 1 1 auto; 
+  }
+  
+  button[mat-raised-button] {
+    margin-left: 16px;
+  }

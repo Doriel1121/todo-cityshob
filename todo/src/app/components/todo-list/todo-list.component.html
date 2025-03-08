@@ -1,0 +1,76 @@
+<div class="task-container">
+  <h2>Hello {{username | uppercase}} </h2>
+  <div class="input-area">
+    <mat-form-field>
+      <mat-label>New task</mat-label>
+      <input
+        matInput
+        [(ngModel)]="newTask"
+        placeholder="New task"
+        (keyup.enter)="addTask()"
+      />
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Priority</mat-label>
+      <mat-select [(ngModel)]="newTaskPriority">
+        <mat-option value="low">Low</mat-option>
+        <mat-option value="medium">Medium</mat-option>
+        <mat-option value="high">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Due Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="newTaskDueDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div><button mat-raised-button color="primary" (click)="addTask()">Add</button></div>
+  </div>
+
+  <mat-list>
+    <div class="empty" *ngIf="tasks.length === 0"> No Tasks at the moment </div>
+    <mat-list-item
+      *ngFor="let task of tasks; let i = index"
+      [@taskState]="task.completed ? 'completed' : 'active'"
+      class="task-list-item"
+    >
+    
+      <div class="task-content">
+        <div class="task-info">
+          <div class="task-priority-circle" [ngClass]="'priority-' + task.priority"></div>
+          <div *ngIf="!task.isEditing">
+            <span [class.completed]="task.completed" class="task-name">{{ task.name }}</span>
+            <div class="task-meta">
+              <span>Due: {{ task.dueDate | date }}</span>
+            </div>
+          </div>
+          <input
+            *ngIf="task.isEditing"
+            type="text"
+            [(ngModel)]="task.name"
+            (blur)="saveTask(task)"
+            (keyup.enter)="saveTask(task)"
+            class="edit-input"
+          />
+        </div>
+        <div class="task-actions">
+          <button *ngIf="!task.isEditing" mat-icon-button (click)="editTask(task)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button *ngIf="task.isEditing" mat-icon-button (click)="saveTask(task)">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="task._id && toggleComplete(task._id)">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="task._id && removeTask(task._id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
